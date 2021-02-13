@@ -60,7 +60,7 @@ public class BuildingSystem : MonoBehaviour
 
 
     private void Start() {
-        map = new Map(origin, width, height, GetComponent<Grid>().cellSize.x);
+        map = new Map(origin, width, height, GetComponent<UnityEngine.Grid>().cellSize.x);
         highlightTileValue = highlightTile;
     }
  
