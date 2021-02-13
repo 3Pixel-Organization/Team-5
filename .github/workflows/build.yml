@@ -29,7 +29,9 @@ jobs:
           unityVersion: 2020.2.0f1
           targetPlatform: Android
           versioning: Semantic
+      - name: Rename APK
+        run: cp build/Android/Android.apk "build/Android/Project SCP v${{ steps.unityBuild.outputs.buildVersion }}.apk"
       - uses: actions/upload-artifact@v1
         with:
           name: ${{ env.PROJECT_NAME }} ${{ steps.unityBuild.outputs.buildVersion }} Android
-          path: build/Android
+          path: build/Android/Project SCP v${{ steps.unityBuild.outputs.buildVersion }}.apk
