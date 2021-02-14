@@ -15,4 +15,4 @@ MonoBehaviour:
   gridAppartenance: 0
   TileName: 
   ressources: 
-  sprite: {fileID: 0}
+  sprite: {fileID: 11400000, guid: 687952f2079529342ab1e6ca4b7bfc58, type: 2}
