@@ -563,17 +563,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dcfd5ac149cd1e54ca9c89ec0f879459, type: 3}
---- !u!114 &1984269647 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2966018643013636151, guid: dcfd5ac149cd1e54ca9c89ec0f879459, type: 3}
-  m_PrefabInstance: {fileID: 1984269646}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91b2a877df2d11c4eb2f2842fd8c46d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1991718251
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -629,9 +618,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1393832517534763325, guid: f31e1f9af9a980b4994cd98fbf764c81, type: 3}
-      propertyPath: soundControllerPrefab
-      value: 
-      objectReference: {fileID: 1984269647}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f31e1f9af9a980b4994cd98fbf764c81, type: 3}

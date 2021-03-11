@@ -26,17 +26,11 @@ public class SceneController : MonoBehaviour
     [SerializeField] float defaultVolume = 0.8f;
 
     //Area management
-    [Header("Area Management")]    
+    [Header("Level Management")]    
     [SerializeField] GameObject gameOverCanvas;
 
-    [Header("Debug")]
+    [Header("Sound Control")]
     [SerializeField] SoundController soundControllerPrefab; //backup sound controller to instatiate, if needed
-
-    [SerializeField] public bool draggingFromButton = false;
-    [SerializeField] public bool draggingFromSpawner = false;
-    [SerializeField] public bool draggingFromMouse = false;
-    [SerializeField] public float touchX, touchY;    
-    [SerializeField] public Vector3 buttonOriginalPosition;
     
     SoundController soundController; //expected sound controller
     
@@ -91,7 +85,7 @@ public class SceneController : MonoBehaviour
                 Debug.Log("init area sceneindex_area");                
                 
                 gameOverCanvas.SetActive(false);
-                FindObjectOfType<LevelController>().LoadArea();
+                FindObjectOfType<LevelController>().LoadLevel();
                 break;
         }
     }

@@ -12,7 +12,7 @@ public sealed class PlayerManager : Manager
     const float MAX_VOLUME = 1f;
 
     //handle to sceneController
-    SceneController sceneController;
+    SceneController sceneController;    
 
     public static PlayerManager Singleton
     {

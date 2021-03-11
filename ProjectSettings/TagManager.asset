@@ -47,3 +47,9 @@ TagManager:
   - name: Foreground
     uniqueID: 3194445495
     locked: 0
+  - name: Doors
+    uniqueID: 532418435
+    locked: 0
+  - name: CrewMembers
+    uniqueID: 3567621275
+    locked: 0

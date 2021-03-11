@@ -48,15 +48,5 @@ MonoBehaviour:
   volumeSlider: {fileID: 0}
   difficultySlider: {fileID: 0}
   defaultVolume: 0.8
-  defaultDifficulty: 2
-  areaCompleteCanvas: {fileID: 0}
   gameOverCanvas: {fileID: 0}
-  debugText: {fileID: 0}
-  soundControllerPrefab: {fileID: 2966018643013636151, guid: bfe9192a5789901488b7fa889a120194, type: 3}
-  draggingFromButton: 0
-  draggingFromSpawner: 0
-  draggingFromMouse: 0
-  touchX: 0
-  touchY: 0
-  buttonBeingDragged: {fileID: 0}
-  buttonOriginalPosition: {x: 0, y: 0, z: 0}
+  soundControllerPrefab: {fileID: 1338893331080923087, guid: dcfd5ac149cd1e54ca9c89ec0f879459, type: 3}

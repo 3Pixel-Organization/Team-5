@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using TMPro;
 
 public class LevelController : MonoBehaviour
 {
@@ -10,30 +10,25 @@ public class LevelController : MonoBehaviour
     //handle to sceneController
     SceneController sceneController;
 
-    //Board management
-    //[Tooltip("Area board size")]
-    [SerializeField] public int boardSizeX = 5;
-    [SerializeField] public int boardSizeY = 6;
 
     //Area game elements
     [Header("Main Game Elements")]
-    [Tooltip("Area initial Credits")]
-    [SerializeField] public int credits = 500;
+    [Tooltip("Area initial Credits")]    
+    [SerializeField] TMP_Text creditsText;
 
-    [Header("Area Audio Clips")]
+    [Header("Game Audio Clips")]
     [SerializeField] public AudioClip buildAudioClip;
     [SerializeField] public AudioClip gameOverAudioClip;
 
     //Runtime variables
-    [Header("Runtime variables")]
-    [Tooltip("Area time in Seconds")]    
-    [SerializeField] public float areaTime = 10.0f;
-    [SerializeField] public float currentAreaTime = 0.0f; //TODO remove serialize field
+    [Header("Runtime variables")]    
+    [SerializeField] TMP_Text levelTimeText;    
+    [SerializeField] public float currentLevelTime = 0.0f; //TODO remove serialize field
 
-    [SerializeField] public float areaStartTime;  //TODO Remove serializefiel
-    [SerializeField] public bool areaTimeout = false; //TODO remove serialize field
+    [SerializeField] public float levelStartTime;  //TODO Remove serializefiel    
     [SerializeField] public bool lostGame = false;
 
+    [SerializeField] bool buildButtonPressed = false;    
     
     public void Start()
     {
@@ -44,15 +39,14 @@ public class LevelController : MonoBehaviour
         this.sceneController = _sceneController;               
 
         //load first Area:
-        LoadArea();
+        LoadLevel();
     }
 
-    public void LoadArea()
+    public void LoadLevel()
     {        
 
-        areaStartTime = Time.time;       
-        currentAreaTime = 0;
-        areaTimeout = false;        
+        levelStartTime = Time.time;       
+        currentLevelTime = 0;              
         lostGame = false;
        
     }
@@ -60,9 +54,8 @@ public class LevelController : MonoBehaviour
 
     public void Update()
     {
-        UpdateAreaTime();
-        
-        
+        UpdateLevelTime();
+        UpdateLevelTimeText();        
     }
 
 
@@ -80,63 +73,38 @@ public class LevelController : MonoBehaviour
 
     #region Credit Management
 
-    public int GetCredits()
+    public void UpdateCreditsText(int credits)
     {
-        return credits;
-    }
-
-    public void AddCredits(int quantity)
-    {
-        credits += quantity;
-    }
-
-    public void SpendCredits(int quantity)
-    {
-        if (credits >= quantity)
-            credits -= quantity;
-    }
-
-    public bool EnoughCredits(int quantity)
-    {
-        return credits >= quantity;
+        creditsText.text = credits.ToString();
     }
 
     #endregion
 
-    #region area time management
+    #region level time management
 
-    private void UpdateAreaTime()
+    private void UpdateLevelTime()
     {
-        SetCurrentAreaTime(Time.time - areaStartTime);
+        SetCurrentLevelTime(Time.time - levelStartTime);
     }
 
-    public float GetCurrentAreaTime()
+    private void UpdateLevelTimeText()
     {
-        return currentAreaTime;
+        levelTimeText.text = Mathf.FloorToInt(currentLevelTime).ToString();
     }
 
-    public void SetCurrentAreaTime(float _currentAreaTime)
+    public float GetCurrentLevelTime()
     {
-        currentAreaTime = _currentAreaTime;     
+        return currentLevelTime;
     }
 
-    public float GetCurrentAreaTimeRatio()
+    public void SetCurrentLevelTime(float _currentLevelTime)
     {
-        return currentAreaTime / areaTime;
+        currentLevelTime = _currentLevelTime;     
     }
 
     #endregion
 
 
-    #region AUX
-
-    //AUX Functions
-    public bool IsInsideBoard(Vector2 gridPos)
-    {
-        return (gridPos.x >= 1 && gridPos.y >= 1 && gridPos.x <= boardSizeX && gridPos.y <= boardSizeY);
-    }
-
-    #endregion
 
     public void QuitGame()
     {

@@ -20,7 +20,7 @@ public class SoundController : MonoBehaviour
         https://creativecommons.org/licenses/by/3.0/deed.en_US
 
 
-        Human by Cjbeards | https://soundcloud.com/cjbeards
+        Cloud Nine by Hayden Folker | https://soundcloud.com/hayden-folker
         Music promoted by https://www.free-stock-music.com
         Creative Commons Attribution 3.0 Unported License
         https://creativecommons.org/licenses/by/3.0/deed.en_US
@@ -53,10 +53,18 @@ public class SoundController : MonoBehaviour
     {
         if(bgMusicState != BGMusicState.PlayingMenuBG)
         {
-            audioSource.clip = menuBGAudioClip;
-            audioSource.Play();
-            audioSource.loop = true;
-            bgMusicState = BGMusicState.PlayingMenuBG;
+            if(!audioSource)
+            {
+                Start();
+            }
+            
+            if (menuBGAudioClip)
+            {
+                audioSource.clip = menuBGAudioClip;
+                audioSource.Play();
+                audioSource.loop = true;
+                bgMusicState = BGMusicState.PlayingMenuBG;
+            }
         }
     }
 
@@ -64,10 +72,18 @@ public class SoundController : MonoBehaviour
     {
         if (bgMusicState != BGMusicState.PlayingGameBG)
         {
-            audioSource.clip = gameBGAudioClip;
-            audioSource.Play();
-            audioSource.loop = true;
-            bgMusicState = BGMusicState.PlayingGameBG;
+            if (!audioSource)
+            {
+                Start();
+            }
+
+            if (gameBGAudioClip && audioSource)
+            {
+                audioSource.clip = gameBGAudioClip;
+                audioSource.Play();
+                audioSource.loop = true;
+                bgMusicState = BGMusicState.PlayingGameBG;
+            }
         }
     }
 

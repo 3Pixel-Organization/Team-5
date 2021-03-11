@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1836841472235399337}
   - component: {fileID: 1585375397}
   m_Layer: 0
-  m_Name: AreaController
+  m_Name: LevelController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,28 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 937a123ff31e25e428554d9a1c2e6d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardSizeX: 5
-  boardSizeY: 6
-  enemySpawners:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  areas:
-  - {fileID: 11400000, guid: f25307ec712309d43b2b4395ab64a92a, type: 2}
-  - {fileID: 11400000, guid: c3988e4291566014b82be56800857fd0, type: 2}
-  nanotubes: 500
-  homeBaseHealth: 5
-  areaCompleteAudioClip: {fileID: 8300000, guid: 0c66f470faf506d4a823a269c7d7f9e3, type: 3}
+  creditsText: {fileID: 0}
+  buildAudioClip: {fileID: 0}
   gameOverAudioClip: {fileID: 8300000, guid: 0c66f470faf506d4a823a269c7d7f9e3, type: 3}
-  areaTime: 10
-  currentAreaTime: 0
-  areaStartTime: 0
-  areaTimeout: 0
-  currentEnemies: 0
+  levelTimeText: {fileID: 0}
+  currentLevelTime: 0
+  levelStartTime: 0
   lostGame: 0
-  wavesInArea: 0
+  buildButtonPressed: 0
 --- !u!82 &1585375397
 AudioSource:
   m_ObjectHideFlags: 0
