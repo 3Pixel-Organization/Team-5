@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class LevelController : MonoBehaviour
 {
@@ -20,6 +21,10 @@ public class LevelController : MonoBehaviour
     [SerializeField] public AudioClip buildAudioClip;
     [SerializeField] public AudioClip gameOverAudioClip;
 
+    [Header("Temporary UI")]
+    [SerializeField] public Image selectedTileImage;
+    [SerializeField] public TMP_Text selectedCostText;
+
     //Runtime variables
     [Header("Runtime variables")]    
     [SerializeField] TMP_Text levelTimeText;    
@@ -28,7 +33,6 @@ public class LevelController : MonoBehaviour
     [SerializeField] public float levelStartTime;  //TODO Remove serializefiel    
     [SerializeField] public bool lostGame = false;
 
-    [SerializeField] bool buildButtonPressed = false;    
     
     public void Start()
     {
@@ -104,7 +108,12 @@ public class LevelController : MonoBehaviour
 
     #endregion
 
-
+    public void SetSelectedTile(TileData tileData)
+    {
+        //setting the UI selected tile with the passed Tile Data:
+        selectedTileImage.sprite = tileData.tileSprite;
+        selectedCostText.text = tileData.tileCost.ToString();
+    }
 
     public void QuitGame()
     {
