@@ -12,8 +12,7 @@ public class BuildController : MonoBehaviour
 
     [SerializeField] Tilemap foregroundTilemap; //TO DO needed?
 
-    [SerializeField] TileBase selectedTile; //TO DO receive from button Scriptable Object
-    [SerializeField] int buildCost; //TO DO receive from button Scriptable Object
+    [SerializeField] TileData selectedTile;  //TO DO Remove serialize field    
 
     ResourceController resourceController;
 
@@ -22,7 +21,7 @@ public class BuildController : MonoBehaviour
     {
         resourceController = FindObjectOfType<ResourceController>();
 
-        Debug.Log(foregroundTilemap.cellBounds);
+        //Debug.Log(foregroundTilemap.cellBounds);
     }
 
     // Update is called once per frame
@@ -38,19 +37,29 @@ public class BuildController : MonoBehaviour
 
     public TileBase GetSelectedTile()
     {
-        return selectedTile;
+        return selectedTile.tile;
+    }
+
+    public void SetSelectedTile(TileData _selectedTile)
+    {
+        selectedTile = _selectedTile;
+        Debug.Log("Selected tile: " + selectedTile.name);
     }
 
     public void TilemapClicked(Tilemap tilemap, Vector3Int tilemapPos)
     {
-        if(resourceController.EnoughCredits(buildCost))
+        if (!selectedTile)
+            Debug.LogError("No tile selected!");
+
+
+        if(resourceController.EnoughCredits(selectedTile.tileCost))
         {
             //can buy:
 
-            TileBase newTile = Instantiate<TileBase>(selectedTile);
+            TileBase newTile = Instantiate<TileBase>(selectedTile.tile);
             tilemap.SetTile(tilemapPos, newTile);
 
-            resourceController.SpendCredits(buildCost);            
+            resourceController.SpendCredits(selectedTile.tileCost);            
         }
 
     }
