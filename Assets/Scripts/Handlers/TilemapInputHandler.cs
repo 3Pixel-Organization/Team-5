@@ -19,9 +19,14 @@ public class TilemapInputHandler : MonoBehaviour
     {
         Debug.Log("on tilemap mouse down");
 
-        Vector3Int tilemapPos = foregroundTilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        Vector3Int tilemapPos = MouseToGridPosition();
         Debug.Log("tilemap mouse down: " + tilemapPos);
 
         buildController.TilemapClicked(foregroundTilemap, tilemapPos);
+    }
+
+    public Vector3Int MouseToGridPosition()
+    {
+       return foregroundTilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
     }
 }
