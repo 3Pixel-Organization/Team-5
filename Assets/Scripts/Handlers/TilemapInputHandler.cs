@@ -14,13 +14,7 @@ public class TilemapInputHandler : MonoBehaviour
     {
         buildController = FindObjectOfType<BuildController>();        
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    
     public void OnMouseDown()
     {
         Debug.Log("on tilemap mouse down");
