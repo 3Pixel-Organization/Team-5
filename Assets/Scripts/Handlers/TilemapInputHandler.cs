@@ -23,7 +23,24 @@ public class TilemapInputHandler : MonoBehaviour
     {
         _buildingIndicatorController.SetPosition((Vector2Int)MouseToGridPosition());
     }
+    
+    private void OnMouseExit()
+    {
+        _buildingIndicatorController.DisableIndicator();
+    }
+    private void OnMouseEnter()
+    {
+        if (_buildController.selectedTile)
+        {
+            _buildingIndicatorController.EnableIndicator();
+            _buildingIndicatorController.SetTile(_buildController.selectedTile);
+        }
+        else
+        {
+            _buildingIndicatorController.DisableIndicator();
+        }
 
+    }
     public void OnMouseDown()
     {
         Debug.Log("on tilemap mouse down");
