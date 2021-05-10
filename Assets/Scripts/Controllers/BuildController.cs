@@ -12,7 +12,7 @@ public class BuildController : MonoBehaviour
 
     [SerializeField] Tilemap foregroundTilemap; //TO DO needed?
 
-    [SerializeField] TileData selectedTile;  //TO DO Remove serialize field    
+    public TileData selectedTile;  //TO DO Remove serialize field    
 
     ResourceController resourceController;
 

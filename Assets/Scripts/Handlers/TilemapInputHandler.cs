@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,28 +7,52 @@ using UnityEngine.Tilemaps;
 public class TilemapInputHandler : MonoBehaviour
 {
 
-    BuildController buildController;
+    BuildController _buildController;
+    private BuildingIndicatorController _buildingIndicatorController;
     [SerializeField] Tilemap foregroundTilemap;
-
+    
     // Start is called before the first frame update
     void Start()
     {
-        buildController = FindObjectOfType<BuildController>();        
+        _buildController = FindObjectOfType<BuildController>();     
+        _buildingIndicatorController = FindObjectOfType<BuildingIndicatorController>();
+
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnMouseOver()
     {
-        
+        _buildingIndicatorController.SetPosition((Vector2Int)MouseToGridPosition());
     }
+    
+    private void OnMouseExit()
+    {
+        _buildingIndicatorController.DisableIndicator();
+    }
+    private void OnMouseEnter()
+    {
+        if (_buildController.selectedTile)
+        {
+            _buildingIndicatorController.EnableIndicator();
+            _buildingIndicatorController.SetTile(_buildController.selectedTile);
+        }
+        else
+        {
+            _buildingIndicatorController.DisableIndicator();
+        }
 
+    }
     public void OnMouseDown()
     {
         Debug.Log("on tilemap mouse down");
 
-        Vector3Int tilemapPos = foregroundTilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        Vector3Int tilemapPos = MouseToGridPosition();
         Debug.Log("tilemap mouse down: " + tilemapPos);
 
-        buildController.TilemapClicked(foregroundTilemap, tilemapPos);
+        _buildController.TilemapClicked(foregroundTilemap, tilemapPos);
+    }
+
+    public Vector3Int MouseToGridPosition()
+    {
+       return foregroundTilemap.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
     }
 }
