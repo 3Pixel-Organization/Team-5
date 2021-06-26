@@ -1,0 +1,95 @@
+using TMPro;
+using UnityEngine;
+
+public class MainController : MonoBehaviour
+{
+	public static MainController instance;
+	public static bool isInteracting;
+
+	public LayerMask interactablLayers;
+	public GameObject interactionMenu;
+	public TextMeshProUGUI objectName;
+	public TextMeshProUGUI objectDiscription;
+
+	[HideInInspector] public Interactable interaction;
+	public int electrecityAmount;
+	public int waterAmount;
+
+	private ObjectCreator oCreator;
+
+	private void Awake()
+	{
+		if (instance == null)
+			instance = this;
+		else if (instance != this)
+			Destroy(gameObject);
+	}
+
+	private void Start()
+	{
+		oCreator = ObjectCreator.instance;
+	}
+
+	private void Update()
+	{
+		isInteracting = interactionMenu.activeSelf;
+
+		if (Input.GetMouseButtonDown(0) && !CreatorsManager.isCreate && !UIManager.isInventoryOpen)
+			Interact();
+
+		if (Input.GetMouseButtonDown(1) && !CreatorsManager.isCreate)
+			StopInteraction();
+	}
+
+	public void Collect()
+	{
+		interaction.GetComponent<ResourcesSystem>().CollectResources();
+	}
+
+	public void Upgrade()
+	{
+		interaction.GetComponent<ResourcesSystem>().UpgradeMachine();
+	}
+
+	private void Interact()
+	{
+		Collider2D[] colliders = Physics2D.OverlapPointAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), interactablLayers);
+
+		if (colliders.Length != 0)
+		{
+			int _theFrontObject = 0;
+			float _theLastYvalue = colliders[0].transform.position.y;
+
+			for (int i = 1; i < colliders.Length; i++)
+			{
+				if (_theLastYvalue > colliders[i].transform.position.y)
+				{
+					_theLastYvalue = colliders[i].transform.position.y;
+					_theFrontObject = i;
+				}
+			}
+
+			if (interaction != colliders[_theFrontObject].GetComponent<Interactable>())
+			{
+				if (colliders[_theFrontObject].GetComponent<Interactable>() != oCreator.objectFeedback.GetComponentInChildren<Interactable>())
+				{
+					StopInteraction();
+					interaction = colliders[_theFrontObject].GetComponent<Interactable>();
+
+					if (interaction)
+						interaction.Interact();
+				}
+			}
+			else StopInteraction();
+		}
+	}
+
+	private void StopInteraction()
+	{
+		if (interaction != null)
+		{
+			interaction.StopInteract();
+			interaction = null;
+		}
+	}
+}

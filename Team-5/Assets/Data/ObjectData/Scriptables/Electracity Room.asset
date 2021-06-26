@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42074a1f5e225d747b10f739eacaa918, type: 3}
+  m_Name: Electracity Room
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 8675428100708160673, guid: 2e5ccfad0b1c76c44ac07f3130945734, type: 3}
+  inventoryIcon: {fileID: 21300000, guid: 08e93745b4cff434abfe79976e84c971, type: 3}
+  cantBePlacedOn:
+    serializedVersion: 2
+    m_Bits: 136
+  objectDescription: This thing gives you electrecity
+  index: 1
