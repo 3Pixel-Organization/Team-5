@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[DefaultExecutionOrder(-1)]
 public class GameManager : MonoBehaviour
 {
 	public static GameManager instance;
@@ -11,6 +12,8 @@ public class GameManager : MonoBehaviour
 		if (instance == null)
 			instance = this;
 		else Destroy(gameObject);
+
+		INPUT.Init();
 	}
 
 	private void Start()
@@ -20,11 +23,11 @@ public class GameManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (INPUT.MainController.Quit.triggered)
 			Application.Quit();
-		if (Input.GetKeyDown(KeyCode.L))
+		if (INPUT.MainController.Load.triggered)
 			cManager.Load();
-		if (Input.GetKeyDown(KeyCode.O))
+		if (INPUT.MainController.Save.triggered)
 			cManager.Save();
 	}
 }

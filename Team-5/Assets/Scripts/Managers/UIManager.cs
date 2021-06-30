@@ -26,7 +26,7 @@ public class UIManager : MonoBehaviour
 
 	private void Update()
     {
-		if (Input.GetKeyDown(KeyCode.E))
+		if (INPUT.MainController.Inventory.triggered)
 		{
             inventory.SetActive(!inventory.activeSelf);
 			isInventoryOpen = inventory.activeSelf;

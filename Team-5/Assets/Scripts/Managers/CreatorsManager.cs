@@ -1,6 +1,7 @@
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using TMPro;
 
 public enum CreateMode
 {
@@ -8,14 +9,23 @@ public enum CreateMode
 	Tile
 }
 
+public enum TilesPlacementType
+{
+	oneTile,
+	fourTiles,
+	nineTiles
+}
+
 public class CreatorsManager : MonoBehaviour
 {
 	public static CreatorsManager instance;
 	public static bool isCreate = false;
 	public static CreateMode createMode = CreateMode.Tile;
+	public static TilesPlacementType placementType;
 
-	[FormerlySerializedAs("ObjectCreator")] public ObjectCreator oCreator;
+	public ObjectCreator oCreator;
 	public TileCreator tCreator;
+	[SerializeField] private TextMeshProUGUI placementNum;
 
 	public delegate void OnCreateOptionChanged();
 	public static event OnCreateOptionChanged CreateOptionChanged;
@@ -30,8 +40,11 @@ public class CreatorsManager : MonoBehaviour
 
 	private bool prevIsCreate;
 
-	private UIManager uiManager;
 	private Grid grid;
+	private Camera cam;
+	private Keyboard kb;
+
+	private UIManager uiManager;
 
 	private void Awake()
 	{
@@ -47,13 +60,37 @@ public class CreatorsManager : MonoBehaviour
 	{
 		uiManager = UIManager.instance;
 		grid = GetComponentInChildren<Grid>();
+		placementType = TilesPlacementType.nineTiles;
+		kb = InputSystem.GetDevice<Keyboard>();
+		cam = Camera.main;
 	}
 
 	private void Update()
 	{
 		GetMousePosition();
 
-		if (Input.GetKeyDown(KeyCode.T) && !uiManager.inventory.activeSelf && !MainController.isInteracting)
+		if (kb.digit1Key.wasPressedThisFrame)
+		{
+			placementNum.text = "1";
+			placementType = TilesPlacementType.oneTile;
+			tCreator.ChangeOnTilePlacementSize();
+		}
+
+		if (kb.digit2Key.wasPressedThisFrame)
+		{
+			placementNum.text = "4";
+			placementType = TilesPlacementType.fourTiles;
+			tCreator.ChangeOnTilePlacementSize();
+		}
+
+		if (kb.digit3Key.wasPressedThisFrame)
+		{
+			placementNum.text = "9";
+			placementType = TilesPlacementType.nineTiles;
+			tCreator.ChangeOnTilePlacementSize();
+		}
+
+		if (INPUT.MainController.Create.triggered && !uiManager.inventory.activeSelf && !MainController.isInteracting)
 		{
 			isCreate = !isCreate;
 			CreateOptionChanged();
@@ -97,7 +134,7 @@ public class CreatorsManager : MonoBehaviour
 
 	private void GetMousePosition()
 	{
-		Vector3Int tilePos = grid.WorldToCell(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+		Vector3Int tilePos = grid.WorldToCell(cam.ScreenToWorldPoint(INPUT.mousePosition));
 		Vector3 mousePos = grid.GetCellCenterWorld(tilePos);
 		tilePos.z = 0;
 		mousePos.z = 0;

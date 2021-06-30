@@ -47,7 +47,6 @@ public class ObjectCreator : MonoBehaviour
 		if (objectFeedback != null)
 		{
 			objectFeedback.transform.position = mousePosition;
-
 			
 			int collidersCount = objectFeedbackcollider.OverlapCollider(contactFilter, colliders);
 
@@ -57,7 +56,7 @@ public class ObjectCreator : MonoBehaviour
 
 			if (CreatorsManager.isCreate)
 			{
-				if (Input.GetMouseButtonDown(0) && CreatorsManager.createMode == CreateMode.Object && collidersCount == 0)
+				if (INPUT.MainController.LMB.triggered && CreatorsManager.createMode == CreateMode.Object && collidersCount == 0)
 					CreateObject(mousePosition, curObjectData);
 			}
 			else

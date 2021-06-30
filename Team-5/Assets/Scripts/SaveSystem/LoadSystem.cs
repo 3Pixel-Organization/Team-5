@@ -2,6 +2,7 @@ using System.IO;
 using UnityEngine;
 using System.Collections;
 using System.Runtime.Serialization.Formatters.Binary;
+using LuaiUtils;
 
 public static class LoadSystem
 {
@@ -58,7 +59,7 @@ public static class LoadSystem
 
 		for (int i = 0; i < data.positions.Count; i++)
 		{
-			Vector3Int pos = DataConverter.ConvertFloatArrayToVector3Int(data.positions[i]);
+			Vector3Int pos = Utils.ConvertFloatArrayToVector3Int(data.positions[i]);
 			if (data.tiles[data.positions[i]] == 0)
 				tCreator.SetTile(pos, null);
 			else tCreator.SetTile(pos, tCreator.tiles[data.tiles[data.positions[i]]]);
@@ -75,7 +76,7 @@ public static class LoadSystem
 
 		for (int i = 0; i < data.positions.Count; i++)
 		{
-			Vector3 pos = DataConverter.ConvertFloatArrayToVector3(data.positions[i]);
+			Vector3 pos = Utils.ConvertFloatArrayToVector3(data.positions[i]);
 			oCreator.CreateObject(pos, oCreator.objects[data.objects[data.positions[i]]]);
 			yield return null;
 		}

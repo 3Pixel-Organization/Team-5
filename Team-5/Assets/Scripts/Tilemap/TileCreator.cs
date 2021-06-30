@@ -13,6 +13,9 @@ public class TileCreator : MonoBehaviour
 	public List<TileData> tiles = new List<TileData>();
 	public Color onTileFeedbackCanPlaceColor;
 	public Color onTileFeedbackCantPlaceColor;
+	public Sprite onTileFeedbackCanPlace1;
+	public Sprite onTileFeedbackCanPlace4;
+	public Sprite onTileFeedbackCanPlace9;
 
 	private Vector3Int tilePos;
 	private ContactFilter2D contactFilter;
@@ -24,11 +27,21 @@ public class TileCreator : MonoBehaviour
 
 	private CreatorsManager cManager;
 
+	//Input
+	private float LMB;
+	private float RMB;
+
 	private void Awake()
 	{
 		if (instance == null)
 			instance = this;
 		else Destroy(gameObject);
+
+		INPUT.MainController.LMB.performed += _ctx => LMB = _ctx.ReadValue<float>();
+		INPUT.MainController.LMB.canceled += _ctx => LMB = _ctx.ReadValue<float>();
+
+		INPUT.MainController.RMB.performed += _ctx => RMB = _ctx.ReadValue<float>();
+		INPUT.MainController.RMB.canceled += _ctx => RMB = _ctx.ReadValue<float>();
 	}
 
 	private void Start()
@@ -48,7 +61,7 @@ public class TileCreator : MonoBehaviour
 			tiles[i].index = i;
 			if (tiles[i].isRuledTile)
 				tileBases.Add(i, Instantiate<TileBase>(tiles[i].ruleTile));
-			else if (tiles[i].tile != null) 
+			else if (tiles[i].tile != null)
 				tileBases.Add(i, Instantiate<TileBase>(tiles[i].tile));
 		}
 	}
@@ -71,9 +84,9 @@ public class TileCreator : MonoBehaviour
 				{
 					if (CreatorsManager.createMode == CreateMode.Tile)
 					{
-						if (Input.GetMouseButton(0))
+						if (LMB == 1)
 							SetTile(tilePos, cManager.selectedTile);
-						if (Input.GetMouseButton(1))
+						if (RMB == 1)
 							SetTile(tilePos, null);
 					}
 				}
@@ -93,10 +106,43 @@ public class TileCreator : MonoBehaviour
 		{
 			Tilemap _curMap = tile.type == TileType.Ground ? groundTilemap : onGroundTilemap;
 
-			_curMap.SetTile(changePos, tileBases[tile.index]);
+			switch (CreatorsManager.placementType)
+			{
+				case TilesPlacementType.oneTile:
+					_curMap.SetTile(changePos, tileBases[tile.index]);
+					break;
+				case TilesPlacementType.fourTiles:
+					for (int i = 0; i < TilesPlacement.fourTiles.Length; i++)
+						_curMap.SetTile(changePos + (Vector3Int)TilesPlacement.fourTiles[i], tileBases[tile.index]);
+					break;
+				case TilesPlacementType.nineTiles:
+					for (int i = 0; i < TilesPlacement.a3x3sq.Length; i++)
+						_curMap.SetTile(changePos + (Vector3Int)TilesPlacement.a3x3sq[i], tileBases[tile.index]);
+					break;
+				default:
+					break;
+			}
 
 			TileSaveData data = new TileSaveData(changePos, tile.index);
 			cManager.tilesData.Add(data);
+		}
+	}
+
+	public void ChangeOnTilePlacementSize()
+	{
+		switch (CreatorsManager.placementType)
+		{
+			case TilesPlacementType.oneTile:
+				onTileFeedbackRenderer.sprite = onTileFeedbackCanPlace1;
+				break;
+			case TilesPlacementType.fourTiles:
+				onTileFeedbackRenderer.sprite = onTileFeedbackCanPlace4;
+				break;
+			case TilesPlacementType.nineTiles:
+				onTileFeedbackRenderer.sprite = onTileFeedbackCanPlace9;
+				break;
+			default:
+				break;
 		}
 	}
 

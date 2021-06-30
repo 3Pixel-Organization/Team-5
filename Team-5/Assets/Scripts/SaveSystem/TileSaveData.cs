@@ -1,4 +1,5 @@
 using UnityEngine;
+using LuaiUtils;
 
 public class TileSaveData
 {
@@ -7,7 +8,7 @@ public class TileSaveData
 
 	public TileSaveData(Vector3Int _pos, int _index)
 	{
-		float[] pos = DataConverter.ConvertVector3ToFloatArray(_pos);
+		float[] pos = Utils.ConvertVector3ToFloatArray(_pos);
 		position = pos;
 		tileIndex = _index;
 	}

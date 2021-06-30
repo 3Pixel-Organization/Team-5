@@ -17,6 +17,8 @@ public class MainController : MonoBehaviour
 
 	private ObjectCreator oCreator;
 
+	private Camera cam;
+
 	private void Awake()
 	{
 		if (instance == null)
@@ -28,16 +30,18 @@ public class MainController : MonoBehaviour
 	private void Start()
 	{
 		oCreator = ObjectCreator.instance;
+
+		cam = Camera.main;
 	}
 
 	private void Update()
 	{
 		isInteracting = interactionMenu.activeSelf;
 
-		if (Input.GetMouseButtonDown(0) && !CreatorsManager.isCreate && !UIManager.isInventoryOpen)
+		if (INPUT.MainController.LMB.triggered && !CreatorsManager.isCreate && !UIManager.isInventoryOpen)
 			Interact();
 
-		if (Input.GetMouseButtonDown(1) && !CreatorsManager.isCreate)
+		if (INPUT.MainController.RMB.triggered && !CreatorsManager.isCreate)
 			StopInteraction();
 	}
 
@@ -53,7 +57,7 @@ public class MainController : MonoBehaviour
 
 	private void Interact()
 	{
-		Collider2D[] colliders = Physics2D.OverlapPointAll(Camera.main.ScreenToWorldPoint(Input.mousePosition), interactablLayers);
+		Collider2D[] colliders = Physics2D.OverlapPointAll(cam.ScreenToWorldPoint(INPUT.mousePosition), interactablLayers);
 
 		if (colliders.Length != 0)
 		{

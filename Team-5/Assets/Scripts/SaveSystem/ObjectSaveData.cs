@@ -1,4 +1,5 @@
 using UnityEngine;
+using LuaiUtils;
 
 public class ObjectSaveData
 {
@@ -7,7 +8,7 @@ public class ObjectSaveData
 
 	public ObjectSaveData(Vector3 _pos, int _index)
 	{
-		float[] pos = DataConverter.ConvertVector3ToFloatArray(_pos);
+		float[] pos = Utils.ConvertVector3ToFloatArray(_pos);
 		position = pos;
 		objectIndex = _index;
 	}
