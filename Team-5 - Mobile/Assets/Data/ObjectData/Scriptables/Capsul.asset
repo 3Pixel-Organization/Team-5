@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42074a1f5e225d747b10f739eacaa918, type: 3}
+  m_Name: Capsul
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 8106313300061989848, guid: e01cafcc2906b8e488c738c163b78528, type: 3}
+  inventoryIcon: {fileID: 21300000, guid: 66c702e4b133c7649a9bdc85c966a162, type: 3}
+  cantBePlacedOn:
+    serializedVersion: 2
+    m_Bits: 128
+  objectDescription: This thing give you... something
+  index: 2

@@ -19,7 +19,7 @@ public class @InputManager : IInputActionCollection, IDisposable
             ""id"": ""6804769b-417c-4e46-ae97-722d0e728cec"",
             ""actions"": [
                 {
-                    ""name"": ""LMB"",
+                    ""name"": ""Build"",
                     ""type"": ""Button"",
                     ""id"": ""d45e7773-d4b1-4810-b2ef-7a7d95223a42"",
                     ""expectedControlType"": ""Button"",
@@ -27,9 +27,25 @@ public class @InputManager : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""RMB"",
+                    ""name"": ""LMB"",
+                    ""type"": ""Button"",
+                    ""id"": ""4b9a0531-210e-4a91-9a1f-1b6ffe0a06ca"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Remove"",
                     ""type"": ""Button"",
                     ""id"": ""4afbbdb0-4683-408b-b566-8cfd903da03a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""RMB"",
+                    ""type"": ""Button"",
+                    ""id"": ""a978c85e-840f-48e6-a26c-18d87e5d0bf8"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -107,7 +123,18 @@ public class @InputManager : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard And Mouse"",
-                    ""action"": ""LMB"",
+                    ""action"": ""Build"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f17a7e4b-7c71-4884-83df-62e41ac8cfeb"",
+                    ""path"": ""<Keyboard>/z"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard And Mouse"",
+                    ""action"": ""Build"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -118,7 +145,18 @@ public class @InputManager : IInputActionCollection, IDisposable
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""Keyboard And Mouse"",
-                    ""action"": ""RMB"",
+                    ""action"": ""Remove"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""274b5bae-1af9-4a33-8591-92c23875ba93"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard And Mouse"",
+                    ""action"": ""Remove"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -253,6 +291,28 @@ public class @InputManager : IInputActionCollection, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4f915174-79c9-4a55-b55e-c158ed6694c9"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard And Mouse"",
+                    ""action"": ""RMB"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a03edecd-a8dd-45de-9363-1178ca3483bf"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard And Mouse"",
+                    ""action"": ""LMB"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -278,7 +338,9 @@ public class @InputManager : IInputActionCollection, IDisposable
 }");
         // MainController
         m_MainController = asset.FindActionMap("MainController", throwIfNotFound: true);
+        m_MainController_Build = m_MainController.FindAction("Build", throwIfNotFound: true);
         m_MainController_LMB = m_MainController.FindAction("LMB", throwIfNotFound: true);
+        m_MainController_Remove = m_MainController.FindAction("Remove", throwIfNotFound: true);
         m_MainController_RMB = m_MainController.FindAction("RMB", throwIfNotFound: true);
         m_MainController_MousePosition = m_MainController.FindAction("MousePosition", throwIfNotFound: true);
         m_MainController_Create = m_MainController.FindAction("Create", throwIfNotFound: true);
@@ -337,7 +399,9 @@ public class @InputManager : IInputActionCollection, IDisposable
     // MainController
     private readonly InputActionMap m_MainController;
     private IMainControllerActions m_MainControllerActionsCallbackInterface;
+    private readonly InputAction m_MainController_Build;
     private readonly InputAction m_MainController_LMB;
+    private readonly InputAction m_MainController_Remove;
     private readonly InputAction m_MainController_RMB;
     private readonly InputAction m_MainController_MousePosition;
     private readonly InputAction m_MainController_Create;
@@ -351,7 +415,9 @@ public class @InputManager : IInputActionCollection, IDisposable
     {
         private @InputManager m_Wrapper;
         public MainControllerActions(@InputManager wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Build => m_Wrapper.m_MainController_Build;
         public InputAction @LMB => m_Wrapper.m_MainController_LMB;
+        public InputAction @Remove => m_Wrapper.m_MainController_Remove;
         public InputAction @RMB => m_Wrapper.m_MainController_RMB;
         public InputAction @MousePosition => m_Wrapper.m_MainController_MousePosition;
         public InputAction @Create => m_Wrapper.m_MainController_Create;
@@ -370,9 +436,15 @@ public class @InputManager : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_MainControllerActionsCallbackInterface != null)
             {
+                @Build.started -= m_Wrapper.m_MainControllerActionsCallbackInterface.OnBuild;
+                @Build.performed -= m_Wrapper.m_MainControllerActionsCallbackInterface.OnBuild;
+                @Build.canceled -= m_Wrapper.m_MainControllerActionsCallbackInterface.OnBuild;
                 @LMB.started -= m_Wrapper.m_MainControllerActionsCallbackInterface.OnLMB;
                 @LMB.performed -= m_Wrapper.m_MainControllerActionsCallbackInterface.OnLMB;
                 @LMB.canceled -= m_Wrapper.m_MainControllerActionsCallbackInterface.OnLMB;
+                @Remove.started -= m_Wrapper.m_MainControllerActionsCallbackInterface.OnRemove;
+                @Remove.performed -= m_Wrapper.m_MainControllerActionsCallbackInterface.OnRemove;
+                @Remove.canceled -= m_Wrapper.m_MainControllerActionsCallbackInterface.OnRemove;
                 @RMB.started -= m_Wrapper.m_MainControllerActionsCallbackInterface.OnRMB;
                 @RMB.performed -= m_Wrapper.m_MainControllerActionsCallbackInterface.OnRMB;
                 @RMB.canceled -= m_Wrapper.m_MainControllerActionsCallbackInterface.OnRMB;
@@ -404,9 +476,15 @@ public class @InputManager : IInputActionCollection, IDisposable
             m_Wrapper.m_MainControllerActionsCallbackInterface = instance;
             if (instance != null)
             {
+                @Build.started += instance.OnBuild;
+                @Build.performed += instance.OnBuild;
+                @Build.canceled += instance.OnBuild;
                 @LMB.started += instance.OnLMB;
                 @LMB.performed += instance.OnLMB;
                 @LMB.canceled += instance.OnLMB;
+                @Remove.started += instance.OnRemove;
+                @Remove.performed += instance.OnRemove;
+                @Remove.canceled += instance.OnRemove;
                 @RMB.started += instance.OnRMB;
                 @RMB.performed += instance.OnRMB;
                 @RMB.canceled += instance.OnRMB;
@@ -449,7 +527,9 @@ public class @InputManager : IInputActionCollection, IDisposable
     }
     public interface IMainControllerActions
     {
+        void OnBuild(InputAction.CallbackContext context);
         void OnLMB(InputAction.CallbackContext context);
+        void OnRemove(InputAction.CallbackContext context);
         void OnRMB(InputAction.CallbackContext context);
         void OnMousePosition(InputAction.CallbackContext context);
         void OnCreate(InputAction.CallbackContext context);

@@ -9,19 +9,11 @@ public enum CreateMode
 	Tile
 }
 
-public enum TilesPlacementType
-{
-	oneTile,
-	fourTiles,
-	nineTiles
-}
-
 public class CreatorsManager : MonoBehaviour
 {
 	public static CreatorsManager instance;
 	public static bool isCreate = false;
 	public static CreateMode createMode = CreateMode.Tile;
-	public static TilesPlacementType placementType;
 
 	public ObjectCreator oCreator;
 	public TileCreator tCreator;
@@ -29,8 +21,6 @@ public class CreatorsManager : MonoBehaviour
 
 	public delegate void OnCreateOptionChanged();
 	public static event OnCreateOptionChanged CreateOptionChanged;
-	public delegate void OnCreatModeChanged();
-	public static event OnCreatModeChanged CreateModeChanged;
 
 	[HideInInspector] public TileData selectedTile;
 	[HideInInspector] public ObjectData selectedObject;
@@ -39,6 +29,10 @@ public class CreatorsManager : MonoBehaviour
 	[HideInInspector] public List<ObjectSaveData> objectsData = new List<ObjectSaveData>();
 
 	private bool prevIsCreate;
+	private bool isKb;
+	private Vector3Int tilePos;
+	private Vector3 mousePos;
+	private Vector3 prevMousePos;
 
 	private Grid grid;
 	private Camera cam;
@@ -60,7 +54,7 @@ public class CreatorsManager : MonoBehaviour
 	{
 		uiManager = UIManager.instance;
 		grid = GetComponentInChildren<Grid>();
-		placementType = TilesPlacementType.nineTiles;
+		TilesPlacement.type = TilesPlacementType.oneTile;
 		kb = InputSystem.GetDevice<Keyboard>();
 		cam = Camera.main;
 	}
@@ -69,26 +63,7 @@ public class CreatorsManager : MonoBehaviour
 	{
 		GetMousePosition();
 
-		if (kb.digit1Key.wasPressedThisFrame)
-		{
-			placementNum.text = "1";
-			placementType = TilesPlacementType.oneTile;
-			tCreator.ChangeOnTilePlacementSize();
-		}
-
-		if (kb.digit2Key.wasPressedThisFrame)
-		{
-			placementNum.text = "4";
-			placementType = TilesPlacementType.fourTiles;
-			tCreator.ChangeOnTilePlacementSize();
-		}
-
-		if (kb.digit3Key.wasPressedThisFrame)
-		{
-			placementNum.text = "9";
-			placementType = TilesPlacementType.nineTiles;
-			tCreator.ChangeOnTilePlacementSize();
-		}
+		SetTilePlacementSize();
 
 		if (INPUT.MainController.Create.triggered && !uiManager.inventory.activeSelf && !MainController.isInteracting)
 		{
@@ -121,7 +96,7 @@ public class CreatorsManager : MonoBehaviour
 	{
 		selectedTile = data;
 		createMode = CreateMode.Tile;
-		CreateModeChanged();
+		CreateOptionChanged();
 	}
 
 	public void SetSelectedType(ObjectData data)
@@ -129,17 +104,125 @@ public class CreatorsManager : MonoBehaviour
 		selectedObject = data;
 		createMode = CreateMode.Object;
 		oCreator.SetCurObject(data);
-		CreateModeChanged();
+		CreateOptionChanged();
 	}
 
 	private void GetMousePosition()
 	{
-		Vector3Int tilePos = grid.WorldToCell(cam.ScreenToWorldPoint(INPUT.mousePosition));
-		Vector3 mousePos = grid.GetCellCenterWorld(tilePos);
-		tilePos.z = 0;
+		if (!isKb)
+		{
+			tilePos = grid.WorldToCell(cam.ScreenToWorldPoint(INPUT.mousePosition));
+
+			if (kb.upArrowKey.wasPressedThisFrame)
+			{
+				tilePos.y++;
+				isKb = true;
+				prevMousePos = INPUT.mousePosition;
+				Cursor.visible = false;
+			}
+			if (kb.downArrowKey.wasPressedThisFrame)
+			{
+				tilePos.y--;
+				isKb = true;
+				prevMousePos = INPUT.mousePosition;
+				Cursor.visible = false;
+			}
+			if (kb.leftArrowKey.wasPressedThisFrame)
+			{
+				tilePos.x--;
+				isKb = true;
+				prevMousePos = INPUT.mousePosition;
+				Cursor.visible = false;
+			}
+			if (kb.rightArrowKey.wasPressedThisFrame)
+			{
+				tilePos.x++;
+				isKb = true;
+				prevMousePos = INPUT.mousePosition;
+				Cursor.visible = false;
+			}
+		}
+		else
+		{
+			if (kb.upArrowKey.wasPressedThisFrame)
+				tilePos.y++;
+			if (kb.downArrowKey.wasPressedThisFrame)
+				tilePos.y--;
+			if (kb.leftArrowKey.wasPressedThisFrame)
+				tilePos.x--;
+			if (kb.rightArrowKey.wasPressedThisFrame)
+				tilePos.x++;
+
+			if (prevMousePos != (Vector3)INPUT.mousePosition)
+			{
+				isKb = false;
+				Cursor.visible = true;
+			}
+		}
+		
+		mousePos = grid.GetCellCenterWorld(tilePos);
 		mousePos.z = 0;
+		tilePos.z = 0;
+
 		oCreator.mousePosition = mousePos;
 		tCreator.SetPositions(mousePos, tilePos);
+	}
+
+	private void SetTilePlacementSize()
+	{
+		if (kb.digit1Key.wasPressedThisFrame)
+		{
+			placementNum.text = "1";
+			TilesPlacement.type = TilesPlacementType.oneTile;
+		}
+
+		if (kb.digit2Key.wasPressedThisFrame)
+		{
+			placementNum.text = "2";
+			TilesPlacement.type = TilesPlacementType.fourTiles;
+		}
+
+		if (kb.digit3Key.wasPressedThisFrame)
+		{
+			placementNum.text = "3";
+			TilesPlacement.type = TilesPlacementType.nineTiles;
+		}
+
+		if (kb.digit4Key.wasPressedThisFrame)
+		{
+			placementNum.text = "4";
+			TilesPlacement.type = TilesPlacementType.line2TilesRight;
+		}
+
+		if (kb.digit5Key.wasPressedThisFrame)
+		{
+			placementNum.text = "5";
+			TilesPlacement.type = TilesPlacementType.line2TilesUp;
+		}
+
+		if (kb.digit6Key.wasPressedThisFrame)
+		{
+			placementNum.text = "6";
+			TilesPlacement.type = TilesPlacementType.line4TilesRight;
+		}
+
+		if (kb.digit7Key.wasPressedThisFrame)
+		{
+			placementNum.text = "7";
+			TilesPlacement.type = TilesPlacementType.line4TilesUp;
+		}
+
+		if (kb.digit8Key.wasPressedThisFrame)
+		{
+			placementNum.text = "8";
+			TilesPlacement.type = TilesPlacementType.a3x3sq;
+		}
+
+		if (kb.digit9Key.wasPressedThisFrame)
+		{
+			placementNum.text = "9";
+			TilesPlacement.type = TilesPlacementType.a4x4sq;
+		}
 	}
 
 	public void Save()

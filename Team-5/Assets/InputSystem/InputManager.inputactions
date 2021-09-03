@@ -6,7 +6,7 @@
             "id": "6804769b-417c-4e46-ae97-722d0e728cec",
             "actions": [
                 {
-                    "name": "LMB",
+                    "name": "Build",
                     "type": "Button",
                     "id": "d45e7773-d4b1-4810-b2ef-7a7d95223a42",
                     "expectedControlType": "Button",
@@ -14,9 +14,25 @@
                     "interactions": ""
                 },
                 {
-                    "name": "RMB",
+                    "name": "LMB",
+                    "type": "Button",
+                    "id": "4b9a0531-210e-4a91-9a1f-1b6ffe0a06ca",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Remove",
                     "type": "Button",
                     "id": "4afbbdb0-4683-408b-b566-8cfd903da03a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RMB",
+                    "type": "Button",
+                    "id": "a978c85e-840f-48e6-a26c-18d87e5d0bf8",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -94,7 +110,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard And Mouse",
-                    "action": "LMB",
+                    "action": "Build",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f17a7e4b-7c71-4884-83df-62e41ac8cfeb",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard And Mouse",
+                    "action": "Build",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -105,7 +132,18 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "Keyboard And Mouse",
-                    "action": "RMB",
+                    "action": "Remove",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "274b5bae-1af9-4a33-8591-92c23875ba93",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard And Mouse",
+                    "action": "Remove",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -240,6 +278,28 @@
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "4f915174-79c9-4a55-b55e-c158ed6694c9",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Keyboard And Mouse",
+                    "action": "RMB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a03edecd-a8dd-45de-9363-1178ca3483bf",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard And Mouse",
+                    "action": "LMB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
