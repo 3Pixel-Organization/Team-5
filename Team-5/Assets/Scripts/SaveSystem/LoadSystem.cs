@@ -9,44 +9,28 @@ public static class LoadSystem
 	private static TileCreator tCreator;
 	private static ObjectCreator oCreator;
 
+	private static string path = Application.persistentDataPath + "/";
 	private static string tilemapPath = Application.persistentDataPath + "/tilemap.tiles";
 	private static string objectsPath = Application.persistentDataPath + "/objects.objets";
 
-	private static TilemapData GetTilemapData()
+	public static T GetData<T>(string _fileName)
 	{
-		if (File.Exists(tilemapPath))
+		string _filePath = path + _fileName;
+
+		if (File.Exists(_filePath))
 		{
 			BinaryFormatter formatter = new BinaryFormatter();
-			FileStream stream = new FileStream(tilemapPath, FileMode.Open);
+			FileStream stream = new FileStream(_filePath, FileMode.Open);
 
-			TilemapData data = (TilemapData)formatter.Deserialize(stream);
+			T data = (T)formatter.Deserialize(stream);
 			stream.Close();
 
 			return data;
 		}
 		else
 		{
-			Debug.LogError($"Save file not found in :{tilemapPath}");
-			return null;
-		}
-	}
-
-	private static ObjectsData GetObjectsData()
-	{
-		if (File.Exists(objectsPath))
-		{
-			BinaryFormatter formatter = new BinaryFormatter();
-			FileStream stream = new FileStream(objectsPath, FileMode.Open);
-
-			ObjectsData data = (ObjectsData)formatter.Deserialize(stream);
-			stream.Close();
-
-			return data;
-		}
-		else
-		{
-			Debug.LogError($"Save file not found in :{objectsPath}");
-			return null;
+			Debug.LogError($"Save file not found in :{_filePath}");
+			return default(T);
 		}
 	}
 
@@ -55,7 +39,7 @@ public static class LoadSystem
 		if (tCreator == null)
 			tCreator = TileCreator.instance;
 
-		TilemapData data = GetTilemapData();
+		TilemapData data = GetData<TilemapData>("tilemap.tiles");
 
 		for (int i = 0; i < data.positions.Count; i++)
 		{
@@ -73,7 +57,7 @@ public static class LoadSystem
 		if (oCreator == null)
 			oCreator = ObjectCreator.instance;
 
-		ObjectsData data = GetObjectsData();
+		ObjectsData data = GetData<ObjectsData>("objects.objets");
 
 		for (int i = 0; i < data.positions.Count; i++)
 		{
