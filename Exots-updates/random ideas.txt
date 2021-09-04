@@ -1,0 +1,33 @@
+scp management game
+
+features :
+-the player can build formation centres to turn types of people into other types of people
+-every recruit has random stats of INT (better scientists), STR (better soldiers), DEX (better engineers)
+--player can have limited amounts of each type depending of the level of certain rooms
+---player can then build rooms that will upgrade any type to the elite version
+-the game is in bird view where you see all of your buildings, you can then click on one to zoom in and see what's inside it
+
+people :
+-engineers : make machinery work
+-scientists : idk but they're important
+-soldiers : capture scps and fight them if they break out
+-D-personal (minions) : do everything but poorly
+
+ressources :
+-money : buying new rooms, machinery, paying people
+--acquired : regularly given when keeping scps, the more dangerous the more money
+-energy : is used to make anything related to energy work (lights, electric doors, computers...)
+--acquired : centrals probably or something like that
+
+rooms :
+-containment cell : contains a npc
+-electric central : produces energy
+
+_____
+lore :
+
+who is the player ?
+-The player is a scientist who is in contact with O5 council and is about to become an important member of the foundation (maybe part of the council).
+
+what is he trying to achieve ? how ?
+-The player's basic mission is to keep an eye on a containment sites to make sure it is working properly and the anomalies are well guarded. As he progresses, he will be able to control more sites and more dangerous anomalies which will mean more responsibilities but also more possibilities
