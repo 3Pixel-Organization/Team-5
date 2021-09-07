@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42074a1f5e225d747b10f739eacaa918, type: 3}
   m_Name: Water Pump
   m_EditorClassIdentifier: 
+  name: Water Pump
   prefab: {fileID: 6977121855486515838, guid: daf6594d0c354744b86ee40d1e07eaa2, type: 3}
   inventoryIcon: {fileID: 21300000, guid: 8ba5c03e5cbc6c849a67d968f9ccdf6a, type: 3}
   cantBePlacedOn:

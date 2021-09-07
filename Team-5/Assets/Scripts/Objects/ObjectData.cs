@@ -1,8 +1,9 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName ="NewObject", menuName ="Tilemap/Creat A New GameObject")]
+[CreateAssetMenu(fileName ="NewObject", menuName ="Scriptables/Object")]
 public class ObjectData : ScriptableObject
 {
+    public new string name;
     public GameObject prefab;
     public Sprite inventoryIcon;
     public LayerMask cantBePlacedOn;

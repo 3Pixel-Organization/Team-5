@@ -5,7 +5,7 @@ namespace JASUtils
 {
     public static class Utils
     {
-        public static float[] ConvertVector3ToFloatArray(Vector3 vector)
+        public static float[] Vector3ToFloatArray(Vector3 vector)
         {
             float posX = vector.x;
             float posY = vector.y;
@@ -13,12 +13,12 @@ namespace JASUtils
             return new float[3] { posX, posY, posZ };
         }
 
-        public static Vector3Int ConvertFloatArrayToVector3Int(float[] _float)
+        public static Vector3Int FloatArrayToVector3Int(float[] _float)
         {
             return new Vector3Int((int)_float[0], (int)_float[1], (int)_float[2]);
         }
 
-        public static Vector3 ConvertFloatArrayToVector3(float[] _float)
+        public static Vector3 FloatArrayToVector3(float[] _float)
         {
             return new Vector3(_float[0], _float[1], _float[2]);
         }
@@ -45,6 +45,19 @@ namespace JASUtils
             return null;
         }
 
+        public static float[] GetPosition(Dictionary<float[], int>.KeyCollection positions, float[] position)
+        {
+            foreach (float[] _position in positions)
+            {
+                if (IsEqual(_position, position))
+                {
+                    return _position;
+                }
+            }
+
+            return null;
+        }
+
         public static bool IsEqual(float[] position01, float[] position02)
         {
             if (position01.Length != position02.Length)
@@ -61,6 +74,17 @@ namespace JASUtils
         public static bool Contains(List<float[]> positions, float[] position)
         {
             foreach (float[] pos in positions)
+            {
+                if (IsEqual(pos, position))
+                    return true;
+            }
+
+            return false;
+        }
+
+        public static bool ContainsKey(Dictionary<float[], int>.KeyCollection keys, float[] position)
+        {
+            foreach (float[] pos in keys)
             {
                 if (IsEqual(pos, position))
                     return true;

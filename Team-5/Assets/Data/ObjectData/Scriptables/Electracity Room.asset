@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42074a1f5e225d747b10f739eacaa918, type: 3}
   m_Name: Electracity Room
   m_EditorClassIdentifier: 
+  name: Electricity Generator
   prefab: {fileID: 8675428100708160673, guid: 2e5ccfad0b1c76c44ac07f3130945734, type: 3}
   inventoryIcon: {fileID: -855298285791758126, guid: 3848ed3692029d54cb63b41a72601d62, type: 3}
   cantBePlacedOn:
     serializedVersion: 2
     m_Bits: 136
-  objectDescription: This thing gives you electrecity
+  objectDescription: This thing gives you electricity
   index: 1

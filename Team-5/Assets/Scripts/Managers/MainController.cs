@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MainController : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class MainController : MonoBehaviour
 	public GameObject interactionMenu;
 	public TextMeshProUGUI objectName;
 	public TextMeshProUGUI objectDiscription;
+	[SerializeField] private GameObject collectButton;
+	[SerializeField] private GameObject upgradeButton;
+	[SerializeField] private GameObject enterButton;
 
 	[HideInInspector] public Interactable interaction;
 	public int electrecityAmount;
@@ -81,7 +85,20 @@ public class MainController : MonoBehaviour
 					interaction = colliders[_theFrontObject].GetComponent<Interactable>();
 
 					if (interaction)
+					{
 						interaction.Interact();
+						if (interaction.GetComponent<ResourcesSystem>())
+						{
+							collectButton.SetActive(true);
+							upgradeButton.SetActive(true);
+							enterButton.SetActive(false);
+						} else if (interaction.GetComponent<InteractableBuilding>())
+						{
+							collectButton.SetActive(false);
+							upgradeButton.SetActive(false);
+							enterButton.SetActive(true);
+						}
+					}
 				}
 			}
 			else StopInteraction();

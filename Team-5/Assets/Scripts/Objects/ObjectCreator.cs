@@ -22,6 +22,7 @@ public class ObjectCreator : MonoBehaviour
 	private List<Collider2D> colliders = new List<Collider2D>();
 
 	private CreatorsManager cManager;
+	private WorldManager wManager;
 
 	private void Awake()
 	{
@@ -32,8 +33,9 @@ public class ObjectCreator : MonoBehaviour
 
 	private void Start()
 	{
-		CreatorsManager.CreateOptionChanged += OnCreateOptionChanged;
 		cManager = CreatorsManager.instance;
+		wManager = WorldManager.instance;
+		CreatorsManager.CreateOptionChanged += OnCreateOptionChanged;
 
 		for (int i = 0; i < objects.Count; i++)
 			objects[i].index = i;
@@ -70,20 +72,25 @@ public class ObjectCreator : MonoBehaviour
 	{
 		Instantiate(_object.prefab, _pos, Quaternion.identity, objectsParent);
 		ObjectSaveData data = new ObjectSaveData(_pos, _object.index);
-		cManager.objectsData.Add(data);
+		if (!GameManager.inBuilding)
+			wManager.objectsData.Add(data);
+		else wManager.buildingObjectsData.Add(data);
 	}
 
 	private void OnCreateOptionChanged()
 	{
-		if (CreatorsManager.createMode == CreateMode.Object && CreatorsManager.isCreate)
+		if (objectPreviewRnderer && objectPreviewCollider)
 		{
-			objectPreviewRnderer.enabled = true;
-			objectPreviewCollider.enabled = true;
-		}
-		else
-		{
-			objectPreviewRnderer.enabled = false;
-			objectPreviewCollider.enabled = false;
+			if (CreatorsManager.createMode == CreateMode.Object && CreatorsManager.isCreate)
+			{
+				objectPreviewRnderer.enabled = true;
+				objectPreviewCollider.enabled = true;
+			}
+			else
+			{
+				objectPreviewRnderer.enabled = false;
+				objectPreviewCollider.enabled = false;
+			}
 		}
 	}
 

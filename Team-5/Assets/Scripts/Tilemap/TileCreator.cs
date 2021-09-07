@@ -26,6 +26,7 @@ public class TileCreator : MonoBehaviour
 	private Collider2D onTileFeedbackcollider;
 
 	private CreatorsManager cManager;
+	private WorldManager wManager;
 
 	private TilesPlacementType type { get { return TilesPlacement.type; } }
 
@@ -50,6 +51,8 @@ public class TileCreator : MonoBehaviour
 	{
 		cManager = CreatorsManager.instance;
 		CreatorsManager.CreateOptionChanged += OnCreateOptionChanged;
+
+		wManager = WorldManager.instance;
 
 		onTileFeedbackRenderer = onTileFeedback.GetComponentInChildren<SpriteRenderer>();
 		onTileFeedbackcollider = onTileFeedback.GetComponentInChildren<Collider2D>();
@@ -101,7 +104,7 @@ public class TileCreator : MonoBehaviour
 		{
 			onGroundTilemap.SetTile(changePos, null);
 			TileSaveData data = new TileSaveData(changePos, 0);
-			cManager.tilesData.Add(data);
+			wManager.tilesData.Add(data);
 		}
 		else
 		{
@@ -113,7 +116,9 @@ public class TileCreator : MonoBehaviour
 				_curMap.SetTile(placePos, tileBases[tile.index]);
 
 				TileSaveData data = new TileSaveData(placePos, tile.index);
-				cManager.tilesData.Add(data);
+				if (!GameManager.inBuilding)
+					wManager.tilesData.Add(data);
+				else wManager.buildingTilesData.Add(data);
 			}
 		}
 	}
@@ -145,8 +150,11 @@ public class TileCreator : MonoBehaviour
 
 	private void OnCreateOptionChanged()
 	{
-		if (CreatorsManager.createMode == CreateMode.Tile && CreatorsManager.isCreate)
-			onTileFeedback.gameObject.SetActive(true);
-		else onTileFeedback.gameObject.SetActive(false);
+		if (onTileFeedback != null)
+		{
+			if (CreatorsManager.createMode == CreateMode.Tile && CreatorsManager.isCreate)
+				onTileFeedback.gameObject.SetActive(true);
+			else onTileFeedback.gameObject.SetActive(false);
+		}
 	}
 }

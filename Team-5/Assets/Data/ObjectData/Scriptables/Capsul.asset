@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42074a1f5e225d747b10f739eacaa918, type: 3}
   m_Name: Capsul
   m_EditorClassIdentifier: 
+  name: Capsul
   prefab: {fileID: 8106313300061989848, guid: e01cafcc2906b8e488c738c163b78528, type: 3}
   inventoryIcon: {fileID: 21300000, guid: 66c702e4b133c7649a9bdc85c966a162, type: 3}
   cantBePlacedOn:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 136
   objectDescription: This thing give you... something
   index: 2

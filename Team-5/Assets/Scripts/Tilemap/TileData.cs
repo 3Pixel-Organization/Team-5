@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[CreateAssetMenu(fileName = "NewTile", menuName = "Tilemap/Create A New Tile")]
+[CreateAssetMenu(fileName = "NewTile", menuName = "Scriptables/Tile")]
 public class TileData : ScriptableObject
 {
     public TileType type;

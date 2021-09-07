@@ -1,12 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections.Generic;
 using TMPro;
 
 public enum CreateMode
 {
 	Object,
-	Tile
+	Tile,
+	Building
 }
 
 public class CreatorsManager : MonoBehaviour
@@ -24,9 +24,8 @@ public class CreatorsManager : MonoBehaviour
 
 	[HideInInspector] public TileData selectedTile;
 	[HideInInspector] public ObjectData selectedObject;
+	[HideInInspector] public BuildingData selectedBuilding;
 	[HideInInspector] public GameObject selectedGameObject;
-	[HideInInspector] public List<TileSaveData> tilesData = new List<TileSaveData>();
-	[HideInInspector] public List<ObjectSaveData> objectsData = new List<ObjectSaveData>();
 
 	private bool prevIsCreate;
 	private bool isKb;
@@ -39,6 +38,7 @@ public class CreatorsManager : MonoBehaviour
 	private Keyboard kb;
 
 	private UIManager uiManager;
+	private BuildingCreator bCreator;
 
 	private void Awake()
 	{
@@ -57,6 +57,7 @@ public class CreatorsManager : MonoBehaviour
 		TilesPlacement.type = TilesPlacementType.oneTile;
 		kb = InputSystem.GetDevice<Keyboard>();
 		cam = Camera.main;
+		bCreator = BuildingCreator.instance;
 	}
 
 	private void Update()
@@ -104,6 +105,14 @@ public class CreatorsManager : MonoBehaviour
 		selectedObject = data;
 		createMode = CreateMode.Object;
 		oCreator.SetCurObject(data);
+		CreateOptionChanged();
+	}
+
+	public void SetSelectedType(BuildingData data)
+	{
+		selectedBuilding = data;
+		createMode = CreateMode.Building;
+		bCreator.SetCurBuilding(data);
 		CreateOptionChanged();
 	}
 
@@ -166,6 +175,7 @@ public class CreatorsManager : MonoBehaviour
 
 		oCreator.mousePosition = mousePos;
 		tCreator.SetPositions(mousePos, tilePos);
+		bCreator.mousePosition = mousePos;
 	}
 
 	private void SetTilePlacementSize()
@@ -223,19 +233,5 @@ public class CreatorsManager : MonoBehaviour
 			placementNum.text = "9";
 			TilesPlacement.type = TilesPlacementType.a4x4sq;
 		}
-	}
-
-	public void Save()
-	{
-		TilemapData tiles = new TilemapData(tilesData);
-		ObjectsData objects = new ObjectsData(objectsData);
-		SaveSystem.SaveTilemap(tiles);
-		SaveSystem.SaveObjects(objects);
-	}
-
-	public void Load()
-	{
-		StartCoroutine(LoadSystem.LoadTilemapData());
-		StartCoroutine(LoadSystem.LoadObjects());
 	}
 }
