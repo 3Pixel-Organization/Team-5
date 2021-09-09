@@ -10,11 +10,10 @@ public class WorldManager : MonoBehaviour
 	private TileCreator tileCreator;
 	private ObjectCreator objectCreator;
 	private BuildingCreator bCreator;
-	private GameManager gManager;
 
 	[HideInInspector] public List<TileSaveData> tilesData = new List<TileSaveData>();
 	[HideInInspector] public List<ObjectSaveData> objectsData = new List<ObjectSaveData>();
-	public List<GameObject> buildings = new List<GameObject>();
+	[HideInInspector] public List<GameObject> buildings = new List<GameObject>();
 
 	[HideInInspector] public List<ObjectSaveData> buildingObjectsData = new List<ObjectSaveData>();
 	[HideInInspector] public List<TileSaveData> buildingTilesData = new List<TileSaveData>();
@@ -27,7 +26,6 @@ public class WorldManager : MonoBehaviour
 			Destroy(gameObject);
 
 		DontDestroyOnLoad(this);
-		gManager = GameManager.instance;
 	}
 
 	private void Start()
@@ -78,7 +76,7 @@ public class WorldManager : MonoBehaviour
 			GameObject go = bCreator.CreateBuilding(pos, bCreator.buildings[building.index]);
 			if (go)
 			{
-				BuildingInScene bInS = go.GetComponent<BuildingInScene>();
+				BuildingInScene bInS = go.GetComponentInChildren<BuildingInScene>();
 				bInS.tilemapData = building.tilemapData;
 				bInS.objectsData = building.objectsData;
 				bInS.name = building.name;
@@ -106,7 +104,7 @@ public class WorldManager : MonoBehaviour
 			ObjectsData objects = SaveSystem.GetObjectsData(objectsData);
 			Dictionary<string, WorldData.BuildingData> buildingsData = SaveSystem.GetBuildingsData(buildings);
 			WorldData worldData = new WorldData(tiles, objects, buildingsData);
-			SaveSystem.Save("World_Data.world", worldData);
+			SaveSystem.Save(GameManager.SaveFileName, worldData);
 		}
 		else
 		{
@@ -114,7 +112,7 @@ public class WorldManager : MonoBehaviour
 			bData.tilemapData = SaveSystem.GetTilemapData(buildingTilesData);
 			bData.objectsData = SaveSystem.GetObjectsData(buildingObjectsData);
 			GameManager.worldData.buildingsData[bData.name] = bData;
-			SaveSystem.Save("World_Data.world", GameManager.worldData);
+			SaveSystem.Save(GameManager.SaveFileName, GameManager.worldData);
 		}
 	}
 }

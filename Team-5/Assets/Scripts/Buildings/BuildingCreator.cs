@@ -67,6 +67,9 @@ public class BuildingCreator : MonoBehaviour
 
 	public GameObject CreateBuilding(Vector3 position, BuildingData buildingData)
 	{
+		if (wManager == null)
+			wManager = WorldManager.instance;
+
 		if (!Physics2D.OverlapPoint(position, buildingData.cantBePlacedOn))
 		{
 			GameObject building = Instantiate(buildingData.prefab, position, Quaternion.identity, objectsParent);

@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour
     public GameObject inventory;
 
 	private CreatorsManager cManager;
+	private MainController mController;
 
 	private void Awake()
 	{
@@ -21,6 +22,7 @@ public class UIManager : MonoBehaviour
 	private void Start()
 	{
 		cManager = CreatorsManager.instance;
+		mController = MainController.instance;
 		inventory.SetActive(false);
 		isInventoryOpen = inventory.activeSelf;
 	}
@@ -50,27 +52,31 @@ public class UIManager : MonoBehaviour
 
 	public void EnterBuilding()
 	{
-		BuildingInScene bInS = MainController.instance.interaction.GetComponentInParent<BuildingInScene>();
+		BuildingInScene bInS = mController.interaction.GetComponentInParent<BuildingInScene>();
+
+		if (bInS == null)
+		{
+			bInS = mController.interaction.GetComponentInParent<BuildingInScene>();
+			if (bInS == null)
+				bInS = mController.interaction.transform.parent.gameObject.AddComponent<BuildingInScene>();
+		}
 
 		TilemapData tData;
-		if (bInS.tilemapData.tiles == null)
+		if (bInS.tilemapData == null)
 			tData = new TilemapData();
 		else tData = bInS.tilemapData;
 
 		ObjectsData oData;
-		if (bInS.objectsData.objects == null)
+		if (bInS.objectsData == null)
 			oData = new ObjectsData();
 		else oData = bInS.objectsData;
 
 		int index = bInS.data.index;
 		float[] position = JASUtils.Utils.Vector3ToFloatArray(bInS.transform.position);
-		string name = bInS.name;
+		string name = $"{index}_{bInS.transform.position}";
 		WorldData.BuildingData bData = new WorldData.BuildingData(tData, oData, index, position, name);
 		GameManager.curBuilding = bData;
 		SceneLoader.instance.EnterBuilding(bData);
 	}
-	public void ExitBuilding()
-	{
-		SceneLoader.instance.ExitBuilding();
-	}
+	public void ExitBuilding() => SceneLoader.instance.ExitBuilding();
 }

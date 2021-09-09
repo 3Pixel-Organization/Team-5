@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
 [DefaultExecutionOrder(-1)]
@@ -5,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
 	public static bool inBuilding = false;
 	public static WorldData.BuildingData curBuilding;
+	public static string SaveFileName { get { return "World_Data.world"; } }
 
 	public static GameManager instance;
 	public static WorldData worldData;
@@ -13,6 +15,8 @@ public class GameManager : MonoBehaviour
 	private WorldManager wManager;
 
 	private Keyboard kb;
+
+	private bool clearData = false;
 
 	private void Awake()
 	{
@@ -31,18 +35,18 @@ public class GameManager : MonoBehaviour
 		cManager = CreatorsManager.instance;
 		wManager = WorldManager.instance;
 		kb = InputSystem.GetDevice<Keyboard>();
-		worldData = LoadSystem.GetData<WorldData>("World_Data.world");
+		if (!File.Exists($"{SaveSystem.path}{SaveFileName}"))
+			SaveSystem.Save(SaveFileName, new WorldData());
+		worldData = LoadSystem.GetData<WorldData>(SaveFileName);
 		curBuilding = new WorldData.BuildingData();
 	}
 
 	private void Update()
 	{
-		if (INPUT.MainController.Quit.triggered)
+		if (INPUT.MainController.Quit.triggered && !SceneLoader.isLoadoingScene)
 			Application.Quit();
-		if (INPUT.MainController.Save.triggered)
-			wManager.Save();
 		if (kb.pKey.wasPressedThisFrame)
-			SaveSystem.Save("World_Data.world", new WorldData());
+			clearData = true;
 	}
 
 	public WorldData.BuildingData GetBuildingData(string name)
@@ -67,7 +71,12 @@ public class GameManager : MonoBehaviour
 		return new WorldData.BuildingData();
 	}
 
-	public void UpdateWorldData() => worldData = LoadSystem.GetData<WorldData>("World_Data.world");
+	public void UpdateWorldData() => worldData = LoadSystem.GetData<WorldData>(SaveFileName);
 
-	private void OnApplicationQuit() => wManager.Save();
+	private void OnApplicationQuit()
+	{
+		if (clearData)
+			SaveSystem.Save(SaveFileName, new WorldData());
+		else wManager.Save();
+	}
 }

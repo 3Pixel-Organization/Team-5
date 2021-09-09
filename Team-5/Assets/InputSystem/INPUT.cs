@@ -20,6 +20,9 @@ public static class INPUT
 		input.MainController.Movement.canceled += _ctx => getAxisRaw = _ctx.ReadValue<Vector2>();
 	}
 
+	public static void Enable() => input.Enable();
+	public static void Disable() => input.Disable();
+
 	private static Vector2 _mousePosition;
 	public static Vector2 mousePosition
 	{

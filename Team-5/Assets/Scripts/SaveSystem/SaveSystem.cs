@@ -7,7 +7,7 @@ using static WorldData;
 
 public static class SaveSystem
 {
-	private static string path = Application.persistentDataPath + "/";
+	public static string path = Application.persistentDataPath + "/";
 
 	public static void Save(string fileName, object data)
 	{
