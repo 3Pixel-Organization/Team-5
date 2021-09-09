@@ -29,6 +29,9 @@ public static class INPUT
 		get { return _mousePosition; }
 	}
 
+	private static float scrollWheel;
+	public static float ScrollWheel { get { return scrollWheel; } }
+
 	private static Vector2 getAxis;
 	private static Vector2 getAxisRaw;
 	public static Vector2 GetAxis

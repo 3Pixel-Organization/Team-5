@@ -158,6 +158,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panSpeed: 5
+  panLimit: {x: 5, y: 5}
+  zoomSpeed: 3
+  zoomMaxSize: 150
+  zoomMinSize: 50
 --- !u!4 &49282318
 Transform:
   m_ObjectHideFlags: 0
